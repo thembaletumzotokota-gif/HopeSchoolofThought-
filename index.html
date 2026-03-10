@@ -159,6 +159,65 @@ body{background:var(--bg);color:var(--text);font-family:'Source Serif 4',Georgia
   svg{display:block!important}
   #cert-name,#cert-date,#cert-reg{display:inline-block!important}
 }
+
+/* ── ADMIN DASHBOARD ── */
+#pg-admin{background:#050805;min-height:100vh}
+.admin-nav{align-items:center;background:rgba(5,8,5,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(76,175,125,0.25);display:flex;height:62px;justify-content:space-between;padding:0 1.5rem;position:sticky;top:0;z-index:200}
+.admin-stat{background:linear-gradient(135deg,#0A1A0E,#0F2214);border:1px solid rgba(76,175,125,0.25);border-radius:10px;padding:1.4rem;text-align:center}
+.admin-stat-n{color:#4CAF7D;font-family:'Playfair Display',serif;font-size:2rem;font-weight:700}
+.admin-stat-l{color:#2A4A32;font-size:0.65rem;letter-spacing:2.5px;text-transform:uppercase;margin-top:2px}
+.student-row{background:linear-gradient(135deg,#0A1A0E,#0D1F12);border:1px solid rgba(76,175,125,0.15);border-radius:10px;margin-bottom:0.8rem;padding:1.2rem 1.4rem;transition:border-color 0.2s}
+.student-row:hover{border-color:rgba(76,175,125,0.35)}
+.student-row.cert-done{border-color:rgba(201,168,76,0.3);background:linear-gradient(135deg,#141008,#1A1408)}
+.prog-bar-adm{background:rgba(255,255,255,0.06);border-radius:20px;height:6px;overflow:hidden;margin-top:5px}
+.prog-bar-adm-fill{background:linear-gradient(to right,#2A6B4A,#4CAF7D);border-radius:20px;height:100%}
+.prog-bar-adm-fill.done{background:linear-gradient(to right,#8B6914,#C9A84C)}
+.pin-box{background:var(--bg3);border:1px solid rgba(76,175,125,0.3);border-radius:14px;max-width:360px;padding:2.4rem;width:100%;text-align:center}
+.pin-input{background:rgba(255,255,255,0.04);border:1px solid rgba(76,175,125,0.3);border-radius:8px;color:var(--text);font-size:2rem;letter-spacing:8px;outline:none;padding:0.8rem;text-align:center;width:100%;transition:border 0.2s;font-family:'Source Serif 4',serif}
+.pin-input:focus{border-color:#4CAF7D}
+.btn-adm-green{background:linear-gradient(135deg,#2A6B4A,#3D9E6E);border:none;border-radius:6px;color:#fff;cursor:pointer;font-family:'Source Serif 4',serif;font-size:0.9rem;font-weight:600;padding:0.8rem 1.8rem;transition:all 0.2s;width:100%;margin-top:1rem}
+.btn-adm-green:hover{opacity:0.88}
+.btn-danger{background:rgba(224,82,82,0.12);border:1px solid rgba(224,82,82,0.3);border-radius:6px;color:#E05252;cursor:pointer;font-size:0.72rem;font-family:'Source Serif 4',serif;padding:0.32rem 0.75rem;transition:all 0.2s}
+.btn-danger:hover{background:rgba(224,82,82,0.22)}
+.btn-reset-s{background:rgba(90,143,212,0.12);border:1px solid rgba(90,143,212,0.3);border-radius:6px;color:#5A8FD4;cursor:pointer;font-size:0.72rem;font-family:'Source Serif 4',serif;padding:0.32rem 0.75rem;transition:all 0.2s}
+.btn-reset-s:hover{background:rgba(90,143,212,0.22)}
+.adm-search{background:rgba(255,255,255,0.04);border:1px solid rgba(76,175,125,0.2);border-radius:7px;color:var(--text);font-family:'Source Serif 4',serif;font-size:0.88rem;outline:none;padding:0.7rem 1rem;transition:border 0.2s;width:100%}
+.adm-search:focus{border-color:#4CAF7D}
+.adm-search::placeholder{color:var(--text3)}
+.adm-select{background:rgba(255,255,255,0.04);border:1px solid rgba(76,175,125,0.2);border-radius:7px;color:var(--text2);font-family:'Source Serif 4',serif;font-size:0.85rem;outline:none;padding:0.7rem 1rem;cursor:pointer}
+
+
+/* ════ ADMIN DASHBOARD ════ */
+#pg-admin{background:radial-gradient(ellipse at 20% 30%,#030A05 0%,#020502 70%);min-height:100vh}
+.admin-nav{align-items:center;background:rgba(3,8,4,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(76,175,125,0.25);display:flex;height:62px;justify-content:space-between;padding:0 1.5rem;position:sticky;top:0;z-index:200}
+.admin-badge{background:rgba(76,175,125,0.15);border:1px solid rgba(76,175,125,0.4);border-radius:20px;color:#4CAF7D;font-size:0.62rem;letter-spacing:3px;padding:3px 10px;text-transform:uppercase}
+.admin-stat{background:linear-gradient(135deg,#071209,#0D1F12);border:1px solid rgba(76,175,125,0.2);border-radius:10px;padding:1.4rem;text-align:center}
+.admin-stat-n{color:#4CAF7D;font-family:'Playfair Display',serif;font-size:2rem;font-weight:700}
+.admin-stat-n.gold{color:#C9A84C}
+.admin-stat-l{color:#1E3D24;font-size:0.63rem;letter-spacing:2.5px;text-transform:uppercase;margin-top:2px}
+.student-card{background:linear-gradient(135deg,#071209,#0B1A0F);border:1px solid rgba(76,175,125,0.15);border-radius:10px;margin-bottom:0.8rem;padding:1.2rem 1.4rem;transition:border-color 0.2s}
+.student-card:hover{border-color:rgba(76,175,125,0.32)}
+.student-card.certified{border-color:rgba(201,168,76,0.3);background:linear-gradient(135deg,#110E04,#181308)}
+.ad-prog-bar{background:rgba(255,255,255,0.06);border-radius:20px;height:5px;overflow:hidden;margin-top:6px}
+.ad-prog-fill{background:linear-gradient(to right,#2A6B4A,#4CAF7D);border-radius:20px;height:100%;transition:width 0.5s}
+.ad-prog-fill.gold-fill{background:linear-gradient(to right,#8A6A1A,#C9A84C)}
+.pin-wrap{align-items:center;background:radial-gradient(ellipse at 30% 40%,#030A05,#010301);display:flex;justify-content:center;min-height:100vh;padding:2rem}
+.pin-card{background:linear-gradient(135deg,#071209,#0B1A0F);border:1px solid rgba(76,175,125,0.25);border-radius:16px;max-width:360px;padding:2.6rem 2rem;text-align:center;width:100%}
+.pin-input{background:rgba(255,255,255,0.04);border:1px solid rgba(76,175,125,0.3);border-radius:8px;color:#fff;font-size:2rem;letter-spacing:10px;outline:none;padding:0.8rem;text-align:center;width:100%;transition:border 0.2s;font-family:monospace}
+.pin-input:focus{border-color:#4CAF7D}
+.btn-green{background:linear-gradient(135deg,#1E5C38,#2E8A56);border:none;border-radius:7px;color:#fff;cursor:pointer;font-family:'Source Serif 4',serif;font-size:0.9rem;font-weight:600;padding:0.85rem;transition:all 0.2s;width:100%;margin-top:1rem}
+.btn-green:hover{opacity:0.88;transform:translateY(-1px)}
+.btn-del{background:rgba(224,82,82,0.12);border:1px solid rgba(224,82,82,0.3);border-radius:6px;color:#E05252;cursor:pointer;font-size:0.73rem;font-family:'Source Serif 4',serif;padding:0.32rem 0.75rem;transition:all 0.2s;white-space:nowrap}
+.btn-del:hover{background:rgba(224,82,82,0.22)}
+.btn-rst{background:rgba(90,143,212,0.12);border:1px solid rgba(90,143,212,0.3);border-radius:6px;color:#5A8FD4;cursor:pointer;font-size:0.73rem;font-family:'Source Serif 4',serif;padding:0.32rem 0.75rem;transition:all 0.2s;white-space:nowrap}
+.btn-rst:hover{background:rgba(90,143,212,0.22)}
+.ad-search{background:rgba(255,255,255,0.04);border:1px solid rgba(76,175,125,0.2);border-radius:7px;color:#fff;font-family:'Source Serif 4',serif;font-size:0.88rem;outline:none;padding:0.7rem 1rem;transition:border 0.2s;width:100%}
+.ad-search:focus{border-color:#4CAF7D}
+.ad-search::placeholder{color:#2A4A32}
+.ad-select{background:#060E07;border:1px solid rgba(76,175,125,0.2);border-radius:7px;color:#8BA890;font-family:'Source Serif 4',serif;font-size:0.85rem;outline:none;padding:0.7rem 1rem;cursor:pointer}
+.ad-empty{text-align:center;padding:3rem 1rem;color:#2A4A32;font-size:0.9rem}
+.admin-btn-hidden{background:transparent;border:none;color:rgba(255,255,255,0.08);cursor:pointer;font-size:0.65rem;font-family:'Source Serif 4',serif;letter-spacing:2px;padding:0.3rem 0.6rem;position:absolute;bottom:1.2rem;right:1.5rem}
+.admin-btn-hidden:hover{color:rgba(76,175,125,0.4)}
 </style>
 </head>
 <body>
@@ -243,6 +302,7 @@ body{background:var(--bg);color:var(--text);font-family:'Source Serif 4',Georgia
     <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
       <button class="btn btn-gold" style="font-size:1rem;padding:1rem 2.8rem" onclick="showAuth('signup')">Register Now</button>
       <button class="btn btn-outline" style="font-size:1rem;padding:1rem 2.8rem" onclick="showAuth('login')">Sign In</button>
+      <button class="btn btn-ghost" style="font-size:0.75rem;padding:0.6rem 1.2rem;opacity:0.6" onclick="showAdmin()">Admin</button>
     </div>
     <div class="land-stats">
       <div><div class="land-stat-n">20</div><div class="land-stat-l">Modules</div></div>
@@ -251,6 +311,9 @@ body{background:var(--bg);color:var(--text);font-family:'Source Serif 4',Georgia
       <div><div class="land-stat-n">1</div><div class="land-stat-l">Certificate</div></div>
     </div>
   </div>
+
+      <!-- Hidden Admin Button -->
+      <button class="admin-btn-hidden" onclick="showAdmin()" title="Admin">⚙ admin</button>
 </div>
 
 <!-- ════════════════════════════════════════════════
@@ -617,6 +680,81 @@ body{background:var(--bg);color:var(--text);font-family:'Source Serif 4',Georgia
       <div style="display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap">
         <button id="qz-retry" class="btn btn-gold hidden" onclick="retryQuiz()">Retry Test</button>
         <button class="btn btn-outline" onclick="closeQuiz()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════ ADMIN PAGE ════════ -->
+<div id="pg-admin" class="page">
+  <!-- PIN SCREEN -->
+  <div id="adm-pin-screen" style="min-height:100vh;background:radial-gradient(ellipse at 30% 40%,#050F08 0%,#020502 70%);display:flex;align-items:center;justify-content:center;padding:2rem">
+    <div class="pin-box">
+      <div style="font-size:2.5rem;margin-bottom:0.6rem">🔐</div>
+      <div style="color:#4CAF7D;font-size:0.62rem;letter-spacing:5px;text-transform:uppercase;margin-bottom:0.4rem">HST · Admin Access</div>
+      <div class="serif" style="color:var(--text);font-size:1.2rem;margin-bottom:0.3rem">Admin Dashboard</div>
+      <div class="muted" style="font-size:0.82rem;margin-bottom:1.5rem">Enter your PIN to continue</div>
+      <div class="field-wrap">
+        <input type="password" id="adm-pin-inp" class="pin-input" maxlength="6" placeholder="••••••" inputmode="numeric"/>
+        <button class="pw-eye" onclick="togglePw('adm-pin-inp','adm-pin-eye')" title="Show PIN"><span id="adm-pin-eye">👁</span></button>
+      </div>
+      <div id="adm-pin-err" style="color:var(--red);font-size:0.8rem;margin-top:0.5rem;display:none">❌ Incorrect PIN. Try again.</div>
+      <button class="btn-adm-green" onclick="checkAdminPin()">Enter Dashboard →</button>
+      <div style="margin-top:0.8rem">
+        <button onclick="showLanding()" style="background:transparent;border:none;color:var(--text3);cursor:pointer;font-size:0.78rem;font-family:inherit">← Back to Home</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD SCREEN -->
+  <div id="adm-dash-screen" style="display:none">
+    <nav class="admin-nav">
+      <div>
+        <div style="color:#4CAF7D;font-size:0.58rem;letter-spacing:4px;text-transform:uppercase">Hope School of Thought</div>
+        <div style="color:var(--text);font-family:'Playfair Display',serif;font-size:0.92rem;font-weight:600">Admin Dashboard</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:0.9rem">
+        <span style="background:rgba(76,175,125,0.15);border:1px solid rgba(76,175,125,0.4);border-radius:20px;color:#4CAF7D;font-size:0.6rem;letter-spacing:2px;padding:3px 10px">🔒 ADMIN</span>
+        <button class="btn btn-ghost" onclick="exitAdmin()" style="border-color:rgba(76,175,125,0.3);color:#4CAF7D">Exit</button>
+      </div>
+    </nav>
+
+    <div style="max-width:960px;margin:0 auto;padding:2rem 1.5rem">
+
+      <!-- Stats -->
+      <div style="color:#4CAF7D;font-size:0.63rem;letter-spacing:5px;text-transform:uppercase;margin-bottom:0.4rem">Overview</div>
+      <h2 class="serif" style="color:var(--text);font-size:1.6rem;margin-bottom:1.2rem">Student Monitor</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1rem;margin-bottom:2rem">
+        <div class="admin-stat"><div id="ad-total" class="admin-stat-n">0</div><div class="admin-stat-l">Total Students</div></div>
+        <div class="admin-stat"><div id="ad-active" class="admin-stat-n">0</div><div class="admin-stat-l">In Progress</div></div>
+        <div class="admin-stat"><div id="ad-cert" class="admin-stat-n" style="color:var(--gold)">0</div><div class="admin-stat-l">Certified</div></div>
+        <div class="admin-stat"><div id="ad-avg" class="admin-stat-n">0%</div><div class="admin-stat-l">Avg. Progress</div></div>
+      </div>
+
+      <!-- Search + Filter -->
+      <div style="display:flex;gap:0.8rem;margin-bottom:1.2rem;flex-wrap:wrap">
+        <input id="adm-search" class="adm-search" placeholder="🔍  Search by name or email..." oninput="renderAdmStudents()" style="flex:1;min-width:180px"/>
+        <select id="adm-filter" class="adm-select" onchange="renderAdmStudents()">
+          <option value="all">All Students</option>
+          <option value="cert">Certified ✅</option>
+          <option value="prog">In Progress</option>
+          <option value="new">Just Registered</option>
+        </select>
+      </div>
+
+      <!-- Student list -->
+      <div id="adm-list"></div>
+
+      <!-- Change PIN -->
+      <div class="card" style="margin-top:2rem;border-color:rgba(76,175,125,0.2)">
+        <div style="color:#4CAF7D;font-size:0.63rem;letter-spacing:4px;text-transform:uppercase;margin-bottom:0.8rem">🔑 Change Admin PIN</div>
+        <div style="display:flex;gap:0.8rem;align-items:center;flex-wrap:wrap">
+          <input type="password" id="new-pin-inp" placeholder="New PIN (4-6 digits)" maxlength="6" inputmode="numeric"
+            style="background:rgba(255,255,255,0.04);border:1px solid rgba(76,175,125,0.2);border-radius:7px;color:var(--text);font-family:'Source Serif 4',serif;font-size:0.9rem;outline:none;padding:0.65rem 1rem;flex:1;min-width:160px"/>
+          <button onclick="changeAdmPin()" class="btn btn-outline" style="border-color:rgba(76,175,125,0.4);color:#4CAF7D;white-space:nowrap">Update PIN</button>
+        </div>
+        <div id="pin-chg-msg" style="display:none;font-size:0.8rem;margin-top:0.5rem"></div>
       </div>
     </div>
   </div>
@@ -1125,7 +1263,7 @@ function toast(msg, isErr){
 }
 
 function showPage(id){
-  ['pg-land','pg-auth','pg-app'].forEach(p=>{
+  ['pg-land','pg-auth','pg-app','pg-admin'].forEach(p=>{
     const el=$(p);
     if(!el) return;
     const isFlex = p!=='pg-app';
@@ -1195,8 +1333,9 @@ function doSignup(){
   if(pass.length<6) return authErr('Password must be at least 6 characters.');
   if(pass!==confirm) return authErr('Passwords do not match.');
   if(STATE.users[email]) return authErr('An account with this email already exists. Please sign in.');
+  const regDate=new Date().toLocaleDateString('en-ZA',{day:'numeric',month:'long',year:'numeric'});
   const user={name,email};
-  STATE.users[email]={name,email,pw:pass};
+  STATE.users[email]={name,email,pw:pass,regDate:regDate};
   STATE.progress[email]=[];
   STATE.session=user;
   if($('chk-remember').checked) LS.set('hst_remember',{email,password:pass});
@@ -1228,6 +1367,8 @@ function doLogout(){
 document.addEventListener('keydown',e=>{
   if(e.key==='Enter'){
     if($('pg-auth')&&$('pg-auth').classList.contains('show')) submitAuth();
+    var admPin=$('pg-admin');
+    if(admPin&&admPin.classList.contains('show')&&document.getElementById('adm-pin-screen').style.display!=='none') checkAdminPin();
   }
 });
 
@@ -1479,6 +1620,361 @@ function answerQ(idx){
   }
 })();
 
+// ════════════════════════════════════════════════
+// ADMIN DASHBOARD
+// ════════════════════════════════════════════════
+const ADM_PIN_DEFAULT = '271024';
+function getAdmPin(){ return LS.get('hst_adm_pin') || ADM_PIN_DEFAULT; }
+
+function showAdmin(){
+  var inp = document.getElementById('adm-pin-inp');
+  if(inp) inp.value = '';
+  var err = document.getElementById('adm-pin-err');
+  if(err) err.style.display = 'none';
+  document.getElementById('adm-pin-screen').style.display = 'flex';
+  document.getElementById('adm-dash-screen').style.display = 'none';
+  showPage('pg-admin');
+}
+
+window.checkAdminPin = function checkAdminPin(){
+  var entered = document.getElementById('adm-pin-inp').value.trim();
+  var err = document.getElementById('adm-pin-err');
+  if(entered === getAdmPin()){
+    document.getElementById('adm-pin-screen').style.display = 'none';
+    document.getElementById('adm-dash-screen').style.display = 'block';
+    renderAdmDash();
+  } else {
+    err.style.display = 'block';
+    document.getElementById('adm-pin-inp').value = '';
+    document.getElementById('adm-pin-inp').focus();
+  }
+}
+
+function exitAdmin(){ showLanding(); }
+
+function changeAdmPin(){
+  var np = document.getElementById('new-pin-inp').value.trim();
+  var msg = document.getElementById('pin-chg-msg');
+  if(np.length < 4 || np.length > 6 || isNaN(np)){
+    msg.style.display='block'; msg.style.color='var(--red)';
+    msg.textContent='PIN must be 4-6 digits only.'; return;
+  }
+  LS.set('hst_adm_pin', np);
+  document.getElementById('new-pin-inp').value='';
+  msg.style.display='block'; msg.style.color='#4CAF7D';
+  msg.textContent='✅ PIN changed successfully!';
+  setTimeout(function(){ msg.style.display='none'; }, 3000);
+}
+
+function renderAdmDash(){
+  var users  = STATE.users;
+  var prog   = STATE.progress;
+  var emails = Object.keys(users);
+  var total  = emails.length;
+  var certified = emails.filter(function(e){ return (prog[e]||[]).length === MODULES.length; }).length;
+  var active = emails.filter(function(e){ var d=(prog[e]||[]).length; return d>0 && d<MODULES.length; }).length;
+  var avgPct = total === 0 ? 0 : Math.round(
+    emails.reduce(function(s,e){ return s + ((prog[e]||[]).length / MODULES.length)*100; }, 0) / total
+  );
+  document.getElementById('ad-total').textContent  = total;
+  document.getElementById('ad-cert').textContent   = certified;
+  document.getElementById('ad-active').textContent = active;
+  document.getElementById('ad-avg').textContent    = avgPct + '%';
+  renderAdmStudents();
+}
+
+function renderAdmStudents(){
+  var users  = STATE.users;
+  var prog   = STATE.progress;
+  var search = (document.getElementById('adm-search').value||'').toLowerCase();
+  var filter = document.getElementById('adm-filter').value;
+  var emails = Object.keys(users);
+
+  var filtered = emails.filter(function(e){
+    var u = users[e];
+    var matchSearch = !search || u.name.toLowerCase().includes(search) || e.toLowerCase().includes(search);
+    var done = (prog[e]||[]).length;
+    var isCert = done === MODULES.length;
+    var matchFilter = true;
+    if(filter==='cert') matchFilter = isCert;
+    if(filter==='prog') matchFilter = done > 0 && !isCert;
+    if(filter==='new')  matchFilter = done === 0;
+    return matchSearch && matchFilter;
+  });
+
+  var list = document.getElementById('adm-list');
+
+  if(filtered.length === 0){
+    list.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--text3)"><div style="font-size:2.5rem;margin-bottom:0.7rem">📭</div><div>No students found</div></div>';
+    return;
+  }
+
+  filtered.sort(function(a,b){ return (prog[b]||[]).length - (prog[a]||[]).length; });
+
+  var html = '';
+  filtered.forEach(function(email){
+    var u    = users[email];
+    var done = (prog[email]||[]).length;
+    var pct  = Math.round((done / MODULES.length)*100);
+    var cert = done === MODULES.length;
+    var regDate = u.regDate || 'Not recorded';
+    html += '<div class="student-row ' + (cert?'cert-done':'') + '">' +
+      '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap">' +
+        '<div style="flex:1;min-width:180px">' +
+          '<div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;margin-bottom:0.3rem">' +
+            '<span style="color:var(--text);font-family:\'Playfair Display\',serif;font-weight:600;font-size:0.97rem">' + u.name + '</span>' +
+            (cert ? '<span style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.4);border-radius:12px;color:var(--gold);font-size:0.6rem;letter-spacing:2px;padding:2px 8px">✦ CERTIFIED</span>' : '') +
+          '</div>' +
+          '<div class="muted" style="font-size:0.78rem;margin-bottom:0.5rem">📧 ' + email + '</div>' +
+          '<div style="display:flex;gap:1.2rem;flex-wrap:wrap;margin-bottom:0.5rem">' +
+            '<span style="font-size:0.74rem;color:var(--text3)">📅 Registered: <span style="color:var(--text2)">' + regDate + '</span></span>' +
+            '<span style="font-size:0.74rem;color:var(--text3)">📚 Modules: <span style="color:' + (cert?'var(--gold)':'#4CAF7D') + ';font-weight:700">' + done + '/20</span></span>' +
+            '<span style="font-size:0.74rem;color:var(--text3)">📊 Progress: <span style="color:' + (cert?'var(--gold)':'#4CAF7D') + ';font-weight:700">' + pct + '%</span></span>' +
+          '</div>' +
+          '<div class="prog-bar-adm"><div class="prog-bar-adm-fill ' + (cert?'done':'') + '" style="width:' + pct + '%"></div></div>' +
+        '</div>' +
+        '<div style="display:flex;flex-direction:column;gap:0.5rem;flex-shrink:0">' +
+          '<button class="btn-reset-s" onclick="resetStudent(\'' + email + '\')">↺ Reset Progress</button>' +
+          '<button class="btn-danger" onclick="deleteStudent(\'' + email + '\')">🗑 Delete</button>' +
+        '</div>' +
+      '</div></div>';
+  });
+
+  html += '<div class="dim" style="text-align:center;font-size:0.74rem;margin-top:0.8rem">Showing ' + filtered.length + ' of ' + emails.length + ' student' + (emails.length!==1?'s':'') + '</div>';
+  list.innerHTML = html;
+}
+
+function resetStudent(email){
+  if(!confirm('Reset ALL progress for ' + STATE.users[email].name + '?\nThis cannot be undone.')) return;
+  STATE.progress[email] = [];
+  persist();
+  renderAdmDash();
+  toast('Progress reset for ' + STATE.users[email].name);
+}
+
+function deleteStudent(email){
+  if(!confirm('Permanently DELETE ' + STATE.users[email].name + '?\nThis cannot be undone.')) return;
+  delete STATE.users[email];
+  delete STATE.progress[email];
+  persist();
+  renderAdmDash();
+  toast('Student deleted.');
+}
+
+
+// ════════════════════════════════════════════════════════════════
+//  ADMIN DASHBOARD LOGIC
+// ════════════════════════════════════════════════════════════════
+const ADMIN_DEFAULT_PIN = '271024';
+
+function getAdminPin(){
+  try{ return localStorage.getItem('hst_admin_pin') || ADMIN_DEFAULT_PIN; }
+  catch(e){ return ADMIN_DEFAULT_PIN; }
+}
+
+
+
+// Enter key on PIN — attached when admin page opens
+function attachAdminPinEnter(){
+  const el  = document.getElementById('admin-pin-input');
+  const btn = document.getElementById('admin-enter-btn');
+  const bk  = document.getElementById('admin-back-btn');
+  if(el && !el._pinReady){
+    el.addEventListener('keydown', function(e){ if(e.key==='Enter') checkAdminPin(); });
+    el._pinReady = true;
+  }
+  if(btn && !btn._pinReady){
+    btn.addEventListener('click', checkAdminPin);
+    btn._pinReady = true;
+  }
+  if(bk && !bk._pinReady){
+    bk.addEventListener('click', showLanding);
+    bk._pinReady = true;
+  }
+}
+
+
+
+function changeAdminPin(){
+  const np  = (document.getElementById('new-pin').value || '').trim();
+  const msg = document.getElementById('pin-msg');
+  if(!/^\d{4,6}$/.test(np)){
+    msg.style.display='block'; msg.style.color='#E05252';
+    msg.textContent='PIN must be 4–6 digits only.'; return;
+  }
+  localStorage.setItem('hst_admin_pin', np);
+  document.getElementById('new-pin').value = '';
+  msg.style.display='block'; msg.style.color='#4CAF7D';
+  msg.textContent='✅ PIN changed successfully!';
+  setTimeout(()=>{ msg.style.display='none'; }, 3000);
+}
+
+function renderAdminDash(){
+  const users  = STATE.users   || {};
+  const prog   = STATE.progress|| {};
+  const emails = Object.keys(users);
+  const total  = emails.length;
+  const certified = emails.filter(e=>(prog[e]||[]).length === MODULES.length).length;
+  const inProg    = emails.filter(e=>{ const d=(prog[e]||[]).length; return d>0 && d<MODULES.length; }).length;
+  const avgPct    = total===0 ? 0 : Math.round(
+    emails.reduce((s,e)=> s + ((prog[e]||[]).length / MODULES.length)*100, 0) / total
+  );
+  document.getElementById('ad-total').textContent  = total;
+  document.getElementById('ad-cert').textContent   = certified;
+  document.getElementById('ad-inprog').textContent = inProg;
+  document.getElementById('ad-avg').textContent    = avgPct + '%';
+  renderAdminList();
+}
+
+function renderAdminList(){
+  const users  = STATE.users   || {};
+  const prog   = STATE.progress|| {};
+  const search = (document.getElementById('ad-search').value||'').toLowerCase();
+  const filter = document.getElementById('ad-filter').value;
+  let emails   = Object.keys(users);
+
+  emails = emails.filter(e=>{
+    const u    = users[e];
+    const done = (prog[e]||[]).length;
+    const isCert = done === MODULES.length;
+    const matchSearch = !search || u.name.toLowerCase().includes(search) || e.toLowerCase().includes(search);
+    let   matchFilter = true;
+    if(filter==='cert') matchFilter = isCert;
+    if(filter==='prog') matchFilter = done > 0 && !isCert;
+    if(filter==='new')  matchFilter = done === 0;
+    return matchSearch && matchFilter;
+  });
+
+  // Sort: certified first, then by progress desc
+  emails.sort((a,b)=>{
+    const da=(prog[a]||[]).length, db=(prog[b]||[]).length;
+    return db - da;
+  });
+
+  const list = document.getElementById('ad-list');
+  if(emails.length === 0){
+    list.innerHTML = '<div class="ad-empty">📭 No students found</div>';
+    return;
+  }
+
+  list.innerHTML = emails.map(email=>{
+    const u    = users[email];
+    const done = (prog[email]||[]).length;
+    const pct  = Math.round((done/MODULES.length)*100);
+    const cert = done === MODULES.length;
+    const regDate = u.regDate || '—';
+    return `<div class="student-card ${cert?'certified':''}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap">
+        <div style="flex:1;min-width:200px">
+          <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;margin-bottom:0.25rem">
+            <span style="color:#fff;font-family:'Playfair Display',serif;font-weight:600;font-size:0.97rem">${u.name}</span>
+            ${cert?'<span style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.4);border-radius:12px;color:#C9A84C;font-size:0.58rem;letter-spacing:2px;padding:2px 8px;text-transform:uppercase">✦ Certified</span>':''}
+          </div>
+          <div style="color:#2A5A30;font-size:0.77rem;margin-bottom:0.5rem">📧 ${email}</div>
+          <div style="display:flex;gap:1.4rem;flex-wrap:wrap;margin-bottom:0.5rem">
+            <span style="color:#1E3D24;font-size:0.74rem">📅 Registered: <span style="color:#3A7A44">${regDate}</span></span>
+            <span style="color:#1E3D24;font-size:0.74rem">📚 Modules: <span style="color:${cert?'#C9A84C':'#4CAF7D'};font-weight:600">${done}/20</span></span>
+            <span style="color:#1E3D24;font-size:0.74rem">📊 Progress: <span style="color:${cert?'#C9A84C':'#4CAF7D'};font-weight:600">${pct}%</span></span>
+          </div>
+          <div class="ad-prog-bar">
+            <div class="ad-prog-fill ${cert?'gold-fill':''}" style="width:${pct}%"></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.45rem;align-items:flex-end;flex-shrink:0">
+          <button class="btn-rst" onclick="resetStudent('${email}')">↺ Reset Progress</button>
+          <button class="btn-del" onclick="deleteStudent('${email}')">🗑 Delete Student</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('') +
+  `<div style="text-align:center;color:#1E3D24;font-size:0.74rem;margin-top:0.8rem">
+    Showing ${emails.length} of ${Object.keys(users).length} student${Object.keys(users).length!==1?'s':''}
+  </div>`;
+}
+
+
+
+
 </script>
+
+<!-- ════════════════════════════════════════
+     ADMIN DASHBOARD
+════════════════════════════════════════ -->
+<div id="pg-admin" class="page">
+
+  <!-- ── PIN SCREEN ── -->
+  <div id="admin-pin-screen" class="pin-wrap">
+    <div class="pin-card">
+      <div style="font-size:2.2rem;margin-bottom:0.6rem">🔐</div>
+      <div style="color:#4CAF7D;font-size:0.6rem;letter-spacing:5px;text-transform:uppercase;margin-bottom:0.3rem">HST · Admin Access</div>
+      <div class="serif" style="color:#fff;font-size:1.25rem;font-weight:600;margin-bottom:0.3rem">Admin Dashboard</div>
+      <div style="color:#2A5A30;font-size:0.8rem;margin-bottom:1.6rem">Enter your PIN to continue</div>
+      <input type="password" id="admin-pin-input" class="pin-input" maxlength="6" placeholder="••••••" inputmode="numeric" autocomplete="new-password" style="margin-bottom:0.5rem"/>
+      <div id="admin-pin-err" style="color:#E05252;font-size:0.78rem;margin-bottom:0.5rem;min-height:1rem"></div>
+      <button type="button" class="btn-green" id="admin-enter-btn" onclick="checkAdminPin()">Enter Dashboard →</button>
+      <button type="button" id="admin-back-btn" onclick="showLanding()" style="background:transparent;border:none;color:#2A5A30;cursor:pointer;font-size:0.78rem;font-family:'Source Serif 4',serif;margin-top:0.9rem;display:block;width:100%">← Back to Home</button>
+    </div>
+  </div>
+
+  <!-- ── DASHBOARD SCREEN ── -->
+  <div id="admin-dash-screen" style="display:none;min-height:100vh">
+
+    <!-- Nav -->
+    <div class="admin-nav">
+      <div>
+        <div style="color:#4CAF7D;font-size:0.57rem;letter-spacing:4px;text-transform:uppercase">Hope School of Thought</div>
+        <div style="color:#fff;font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:700">Admin Dashboard</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:0.8rem">
+        <span class="admin-badge">🔒 Admin</span>
+        <button onclick="exitAdmin()" style="background:transparent;border:1px solid rgba(76,175,125,0.3);border-radius:6px;color:#4CAF7D;cursor:pointer;font-family:'Source Serif 4',serif;font-size:0.8rem;padding:0.4rem 0.9rem">Sign Out</button>
+      </div>
+    </div>
+
+    <div style="max-width:960px;margin:0 auto;padding:2rem 1.2rem">
+
+      <!-- Header -->
+      <div style="margin-bottom:2rem">
+        <div style="color:#4CAF7D;font-size:0.62rem;letter-spacing:5px;text-transform:uppercase;margin-bottom:0.3rem">Overview</div>
+        <h2 class="serif" style="color:#fff;font-size:1.6rem;margin-bottom:1.2rem">Student Monitor</h2>
+
+        <!-- Stat cards -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:0.9rem;margin-bottom:2rem">
+          <div class="admin-stat"><div id="ad-total" class="admin-stat-n">0</div><div class="admin-stat-l">Total Students</div></div>
+          <div class="admin-stat"><div id="ad-inprog" class="admin-stat-n">0</div><div class="admin-stat-l">In Progress</div></div>
+          <div class="admin-stat"><div id="ad-cert" class="admin-stat-n gold">0</div><div class="admin-stat-l">Certified</div></div>
+          <div class="admin-stat"><div id="ad-avg" class="admin-stat-n">0%</div><div class="admin-stat-l">Avg. Progress</div></div>
+        </div>
+      </div>
+
+      <!-- Search & Filter -->
+      <div style="display:flex;gap:0.8rem;margin-bottom:1.2rem;flex-wrap:wrap">
+        <input id="ad-search" class="ad-search" placeholder="🔍  Search name or email..." oninput="renderAdminList()" style="flex:1;min-width:180px"/>
+        <select id="ad-filter" class="ad-select" onchange="renderAdminList()">
+          <option value="all">All Students</option>
+          <option value="cert">Certified ✅</option>
+          <option value="prog">In Progress</option>
+          <option value="new">Just Registered</option>
+        </select>
+      </div>
+
+      <!-- Student List -->
+      <div id="ad-list"></div>
+
+      <!-- Change PIN -->
+      <div style="background:linear-gradient(135deg,#071209,#0B1A0F);border:1px solid rgba(76,175,125,0.15);border-radius:10px;margin-top:2rem;padding:1.4rem">
+        <div style="color:#4CAF7D;font-size:0.6rem;letter-spacing:4px;text-transform:uppercase;margin-bottom:0.8rem">🔑 Security — Change PIN</div>
+        <div style="display:flex;gap:0.8rem;flex-wrap:wrap;align-items:center">
+          <input type="password" id="new-pin" placeholder="New PIN (4–6 digits)" maxlength="6" inputmode="numeric"
+            style="background:rgba(255,255,255,0.04);border:1px solid rgba(76,175,125,0.2);border-radius:7px;color:#fff;font-family:'Source Serif 4',serif;font-size:0.9rem;outline:none;padding:0.65rem 1rem;flex:1;min-width:160px"/>
+          <button onclick="changeAdminPin()" style="background:transparent;border:1px solid rgba(76,175,125,0.35);border-radius:6px;color:#4CAF7D;cursor:pointer;font-family:'Source Serif 4',serif;font-size:0.85rem;padding:0.65rem 1.2rem;white-space:nowrap">Save PIN</button>
+        </div>
+        <div id="pin-msg" style="display:none;font-size:0.78rem;margin-top:0.5rem"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
