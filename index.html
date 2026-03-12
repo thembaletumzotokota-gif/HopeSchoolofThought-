@@ -1922,26 +1922,27 @@ async function downloadCertPDF(){
   try {
     const certEl = document.getElementById('cert-doc');
 
-    // Temporarily force white background and full visibility
-    const origBg = certEl.style.background;
-    certEl.style.background = 'linear-gradient(160deg,#FEFBF3,#FDF6E3,#F9EDD0)';
+    // Scroll to top so full cert is rendered
+    window.scrollTo(0,0);
 
-    // Render the certificate element to canvas at high resolution
+    // Capture at high scale
     const canvas = await html2canvas(certEl, {
-      scale: 2,
+      scale: 3,
       useCORS: true,
       allowTaint: true,
       backgroundColor: '#FEFBF3',
       logging: false,
-      windowWidth: certEl.scrollWidth,
-      windowHeight: certEl.scrollHeight,
+      scrollX: 0,
+      scrollY: 0,
+      width: certEl.offsetWidth,
+      height: certEl.offsetHeight,
+      windowWidth: document.documentElement.clientWidth,
     });
 
-    certEl.style.background = origBg;
-
-    // A4 dimensions in mm
+    // A4 in mm
     const PDF_W = 210;
     const PDF_H = 297;
+    const MARGIN = 8; // mm margin on all sides
 
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF({
@@ -1951,16 +1952,28 @@ async function downloadCertPDF(){
       compress: true,
     });
 
-    const imgData = canvas.toDataURL('image/jpeg', 0.97);
-    const imgW = PDF_W;
-    const imgH = (canvas.height * PDF_W) / canvas.width;
+    const imgData = canvas.toDataURL('image/jpeg', 0.98);
 
-    // Centre vertically if shorter than A4
-    const yOffset = imgH < PDF_H ? (PDF_H - imgH) / 2 : 0;
+    // Scale image to fit within margins
+    const availW = PDF_W - MARGIN * 2;
+    const availH = PDF_H - MARGIN * 2;
+    const imgRatio = canvas.height / canvas.width;
+    let drawW = availW;
+    let drawH = drawW * imgRatio;
 
-    pdf.addImage(imgData, 'JPEG', 0, yOffset, imgW, imgH);
+    // If too tall, scale down to fit height
+    if(drawH > availH){
+      drawH = availH;
+      drawW = drawH / imgRatio;
+    }
 
-    // Get student name for filename
+    // Centre on page
+    const xOff = (PDF_W - drawW) / 2;
+    const yOff = (PDF_H - drawH) / 2;
+
+    pdf.addImage(imgData, 'JPEG', xOff, yOff, drawW, drawH);
+
+    // Student name for filename
     const nameEl = document.getElementById('cert-name');
     const studentName = nameEl ? nameEl.textContent.trim().replace(/\s+/g,'-') : 'Certificate';
     pdf.save('HST-Certificate-' + studentName + '.pdf');
@@ -1972,7 +1985,6 @@ async function downloadCertPDF(){
     console.error('PDF error:', err);
     btn.innerHTML = origText;
     btn.disabled = false;
-    // Fallback to print
     window.print();
   }
 }
