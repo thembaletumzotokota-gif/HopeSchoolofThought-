@@ -232,6 +232,7 @@ body{background:var(--bg);color:var(--text);font-family:'Source Serif 4',Georgia
 .admin-btn-hidden:hover{color:rgba(76,175,125,0.4)}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
@@ -1962,13 +1963,139 @@ function renderAdminList(){
 
 
 // ════════════════════════════════════════════════════════════════
-//  CERTIFICATE PDF — drawn directly with jsPDF native primitives.
-//  No html2canvas. Works 100% on every device (mobile, desktop,
-//  Samsung Internet, GitHub Pages, anywhere). Output is identical
-//  every time, so no more blank pages.
+//  CERTIFICATE PDF — pixel-perfect capture of the on-screen cert
+//  via html2canvas, with a robust native-jsPDF fallback if the
+//  capture ever fails (e.g. on very old mobile browsers).
+//
+//  Pre-processing inside the html2canvas clone:
+//   • Freezes every clamp()/var() font-size to its computed pixel value
+//   • Removes mix-blend-mode (was the #1 cause of blank Samsung output)
+//   • Removes box-shadows + filters that html2canvas chokes on
+//   • Inlines the live computed line-height/padding/letter-spacing
 // ════════════════════════════════════════════════════════════════
 
-function _buildCertPdf(){
+async function _buildCertPdf(){
+  const { jsPDF } = window.jspdf;
+
+  // Wait for fonts to be ready (Playfair Display etc.) — critical
+  if (document.fonts && document.fonts.ready) {
+    try { await document.fonts.ready; } catch(e) {}
+  }
+  // Let any pending layout settle
+  await new Promise(r => setTimeout(r, 80));
+
+  const certEl = document.getElementById('cert-doc');
+  if (!certEl) throw new Error('Certificate element not found');
+
+  const studentName = (document.getElementById('cert-name')?.textContent || 'Student Name').trim();
+  const certNum     = (document.getElementById('cert-reg')?.textContent  || '').trim();
+  const safeName    = studentName.replace(/[^A-Za-z0-9]+/g,'-').replace(/^-|-$/g,'') || 'Student';
+  const safeNum     = certNum.replace(/\s+/g,'') || 'HST';
+  const filename    = safeNum + '_' + safeName + '_Certificate.pdf';
+
+  // Snapshot computed styles of every element BEFORE cloning
+  const liveAll  = [certEl, ...certEl.querySelectorAll('*')];
+  const snapshots = liveAll.map(el => {
+    const cs = window.getComputedStyle(el);
+    return {
+      fontSize: cs.fontSize,
+      lineHeight: cs.lineHeight,
+      letterSpacing: cs.letterSpacing,
+      padding: cs.padding,
+      margin: cs.margin,
+      color: cs.color,
+      fontFamily: cs.fontFamily,
+      fontWeight: cs.fontWeight,
+      fontStyle: cs.fontStyle,
+    };
+  });
+
+  let canvas = null;
+  if (typeof html2canvas === 'function') {
+    try {
+      canvas = await html2canvas(certEl, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: false,
+        backgroundColor: '#FDF6E3',
+        logging: false,
+        foreignObjectRendering: false,
+        removeContainer: true,
+        onclone: (doc) => {
+          const clone = doc.getElementById('cert-doc');
+          if (!clone) return;
+          const cloneAll = [clone, ...clone.querySelectorAll('*')];
+          for (let i = 0; i < snapshots.length && i < cloneAll.length; i++) {
+            const el = cloneAll[i];
+            const s  = snapshots[i];
+            // Freeze computed sizing — this fixes clamp() & vw units
+            el.style.fontSize      = s.fontSize;
+            el.style.lineHeight    = s.lineHeight;
+            el.style.letterSpacing = s.letterSpacing;
+            el.style.padding       = s.padding;
+            el.style.margin        = s.margin;
+            el.style.color         = s.color;
+            el.style.fontFamily    = s.fontFamily;
+            el.style.fontWeight    = s.fontWeight;
+            el.style.fontStyle     = s.fontStyle;
+            // Remove things html2canvas can't reliably render on mobile
+            el.style.mixBlendMode  = 'normal';
+            el.style.filter        = 'none';
+            el.style.backdropFilter= 'none';
+            el.style.boxShadow     = 'none';
+          }
+          // Force the cert to a deterministic width for clean rendering
+          clone.style.width   = '900px';
+          clone.style.maxWidth= '900px';
+          clone.style.transform = 'none';
+          clone.style.position = 'static';
+        },
+      });
+      // Sanity-check: is the canvas actually non-blank?
+      if (canvas) {
+        try {
+          const ctx = canvas.getContext('2d');
+          const cx  = Math.floor(canvas.width / 2);
+          const cy  = Math.floor(canvas.height / 3);   // sample upper-third (text area)
+          const px  = ctx.getImageData(cx, cy, 1, 1).data;
+          // Cream is ~ (253,246,227); ink/gold pixels deviate. If the entire
+          // sample is within 5 of cream, treat as blank and use fallback.
+          const isBlank = Math.abs(px[0]-253) < 5 && Math.abs(px[1]-246) < 5 && Math.abs(px[2]-227) < 5;
+          if (isBlank) {
+            console.warn('html2canvas produced blank canvas — falling back to native draw');
+            canvas = null;
+          }
+        } catch(e){ /* sampling failed, trust the canvas */ }
+      }
+    } catch(e){
+      console.warn('html2canvas threw, falling back to native draw:', e);
+      canvas = null;
+    }
+  }
+
+  if (canvas) {
+    // ─── Capture path: place the cert image on A4 ───
+    const imgData = canvas.toDataURL('image/jpeg', 0.94);
+    const pdf = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
+    const pdfW = 210, pdfH = 297, margin = 6;
+    const availW = pdfW - 2*margin;
+    const availH = pdfH - 2*margin;
+    const ratio  = canvas.width / canvas.height;
+    let drawW, drawH;
+    if (availW / availH > ratio) { drawH = availH; drawW = drawH * ratio; }
+    else                          { drawW = availW; drawH = drawW / ratio; }
+    const xPos = (pdfW - drawW) / 2;
+    const yPos = (pdfH - drawH) / 2;
+    pdf.addImage(imgData, 'JPEG', xPos, yPos, drawW, drawH);
+    return { pdf, filename, studentName, certNum };
+  }
+
+  // Fallback: native jsPDF drawing
+  return _buildCertPdfNative();
+}
+
+// ─── Native jsPDF drawing (fallback only) ───
+function _buildCertPdfNative(){
   const { jsPDF } = window.jspdf;
   const pdf = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
 
@@ -2230,7 +2357,7 @@ async function downloadCertPDF(){
   btn.innerHTML = '⏳ Generating PDF...';
   btn.disabled = true;
   try {
-    const { pdf, filename } = _buildCertPdf();
+    const { pdf, filename } = await _buildCertPdf();
     pdf.save(filename);
     btn.innerHTML = '✅ Downloaded!';
     setTimeout(()=>{ btn.innerHTML = origText; btn.disabled = false; }, 2500);
@@ -2253,7 +2380,7 @@ async function emailCertPDF(){
   btn.innerHTML = '⏳ Preparing...';
   btn.disabled = true;
   try {
-    const { pdf, filename, studentName, certNum } = _buildCertPdf();
+    const { pdf, filename, studentName, certNum } = await _buildCertPdf();
     // 1. Save the PDF locally so the user can attach it
     pdf.save(filename);
 
