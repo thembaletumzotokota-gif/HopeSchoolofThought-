@@ -2044,11 +2044,14 @@ async function _buildCertPdf(){
             el.style.backdropFilter= 'none';
             el.style.boxShadow     = 'none';
           }
-          // Force the cert to a deterministic width for clean rendering
-          clone.style.width   = '900px';
-          clone.style.maxWidth= '900px';
+          // Match the live element exactly — same width, no transforms,
+          // so the PDF is identical to what's on screen
+          const liveW = certEl.offsetWidth;
+          clone.style.width    = liveW + 'px';
+          clone.style.maxWidth = liveW + 'px';
           clone.style.transform = 'none';
-          clone.style.position = 'static';
+          clone.style.position  = 'static';
+          clone.style.boxShadow = 'none';
         },
       });
       // Sanity-check: is the canvas actually non-blank?
