@@ -129,7 +129,7 @@ body{background:var(--bg);color:var(--text);font-family:'Source Serif 4',Georgia
 .study-content h3{color:var(--gold);font-family:'Playfair Display',serif;font-size:1rem;margin:1.2rem 0 0.5rem}
 
 /* ── CERTIFICATE ── */
-.cert-outer{background:linear-gradient(160deg,#FEFBF3,#FDF6E3,#F9EDD0);-webkit-print-color-adjust:exact;print-color-adjust:exact;border:5px double #8B6914;border-radius:3px;box-shadow:0 0 0 9px #C9A84C,0 0 0 13px #8B6914,0 30px 80px rgba(0,0,0,0.65);color:#3A2000;font-family:'Playfair Display',Georgia,serif;overflow:hidden;padding:clamp(28px,5vw,60px) clamp(22px,6vw,70px);position:relative;text-align:center}
+.cert-outer{background:linear-gradient(160deg,#FEFBF3,#FDF6E3,#F9EDD0);-webkit-print-color-adjust:exact;print-color-adjust:exact;border:5px double #8B6914;border-radius:3px;box-shadow:0 0 0 9px #C9A84C,0 0 0 13px #8B6914;color:#3A2000;font-family:'Playfair Display',Georgia,serif;overflow:hidden;padding:clamp(28px,5vw,60px) clamp(22px,6vw,70px);position:relative;text-align:center}
 .cert-corner{height:55px;position:absolute;width:55px}
 .cert-corner.tl{border-left:3px solid #8B6914;border-top:3px solid #8B6914;left:0;top:0}
 .cert-corner.tr{border-right:3px solid #8B6914;border-top:3px solid #8B6914;right:0;top:0}
@@ -606,7 +606,7 @@ body{background:var(--bg);color:var(--text);font-family:'Source Serif 4',Georgia
             <div class="cert-divider"></div>
 
             <!-- Footer row -->
-            <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:16px;gap:0.5rem;flex-wrap:wrap">
+            <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:16px;gap:0.5rem;flex-wrap:nowrap">
               <!-- Date -->
               <div style="text-align:center;flex:1;min-width:80px">
                 <div style="font-size:clamp(7px,1.1vw,9px);color:#6B4C1E;margin-bottom:4px;letter-spacing:1px;text-transform:uppercase">Date Awarded</div>
@@ -643,7 +643,6 @@ body{background:var(--bg);color:var(--text);font-family:'Source Serif 4',Georgia
         </div>
         <div style="text-align:center;margin-top:2rem;display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap">
           <button class="btn btn-gold" onclick="downloadCertPDF()" id="cert-dl-btn" style="font-size:1rem;padding:0.9rem 2.3rem">⬇️ Download Certificate PDF</button>
-          <button class="btn btn-outline" onclick="emailCertPDF()" id="cert-email-btn" style="font-size:1rem;padding:0.9rem 2.3rem">✉️ Email Certificate</button>
         </div>
       </div>
     </div>
