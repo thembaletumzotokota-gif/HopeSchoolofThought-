@@ -1510,19 +1510,113 @@ function renderCertificate(){
 }
 
 function generateUniqueCertificateNumber(){
+  const email = STATE.session.email;
+  const u     = STATE.users[email];
+
+  // If this student already has a permanent certificate on file, reuse it.
+  if(u && u.certNumber){
+    $('cert-reg').textContent = u.certNumber;
+    STATE.session.certNumber  = u.certNumber;
+    return;
+  }
+
+  let certNum;
   try{
     let counter=parseInt(localStorage.getItem('hst_cert_counter')||'1000');
     counter++;
     localStorage.setItem('hst_cert_counter',counter.toString());
-    const certNum='HST-'+String(counter).padStart(6,'0');
-    $('cert-reg').textContent=certNum;
-    STATE.session.certNumber=certNum;
+    certNum='HST-'+String(counter).padStart(6,'0');
   }catch(e){
-    const init=STATE.session.email.slice(0,3).toUpperCase();
-    const certNum='HST-'+init+'-'+String(Date.now()).slice(-5);
-    $('cert-reg').textContent=certNum;
-    STATE.session.certNumber=certNum;
+    const init = email.slice(0,3).toUpperCase();
+    certNum='HST-'+init+'-'+String(Date.now()).slice(-5);
   }
+
+  $('cert-reg').textContent = certNum;
+  STATE.session.certNumber  = certNum;
+
+  // Persist on the user record so admin reports stay accurate forever.
+  if(u){
+    u.certNumber     = certNum;
+    u.completionDate = new Date().toISOString();
+    persist();
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// CSV EXPORT — all issued certificates
+// ─────────────────────────────────────────────────────────────────
+function exportCertsCSV(){
+  const users = STATE.users    || {};
+  const prog  = STATE.progress || {};
+  const total = MODULES.length;
+
+  // Pick out everyone who has finished all modules.
+  const certified = Object.keys(users).filter(e => (prog[e]||[]).length === total);
+
+  if(certified.length === 0){
+    toast('No certificates have been issued yet.');
+    return;
+  }
+
+  // Backfill cert # / completion date for anyone certified before this feature.
+  let backfilled = false;
+  certified.forEach(email => {
+    const u = users[email];
+    if(!u.certNumber){
+      try{
+        let counter = parseInt(localStorage.getItem('hst_cert_counter')||'1000');
+        counter++;
+        localStorage.setItem('hst_cert_counter', counter.toString());
+        u.certNumber = 'HST-'+String(counter).padStart(6,'0');
+      }catch(e){
+        u.certNumber = 'HST-'+email.slice(0,3).toUpperCase()+'-'+String(Date.now()).slice(-5);
+      }
+      backfilled = true;
+    }
+    if(!u.completionDate){
+      u.completionDate = new Date().toISOString();
+      backfilled = true;
+    }
+  });
+  if(backfilled) persist();
+
+  // Format cells safely for CSV (handle quotes, commas, line breaks).
+  const csvCell = v => {
+    const s = (v==null ? '' : String(v));
+    return /[",\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  };
+  const fmtDate = iso => {
+    if(!iso) return '';
+    try{
+      return new Date(iso).toLocaleDateString('en-ZA', {day:'2-digit', month:'short', year:'numeric'});
+    }catch(e){ return iso; }
+  };
+
+  const header = ['Certificate No.','Student Name','Email','Registered','Completion Date'];
+  const rows = certified
+    .map(e => {
+      const u = users[e];
+      return [u.certNumber, u.name, e, fmtDate(u.regDate), fmtDate(u.completionDate)];
+    })
+    .sort((a,b) => String(a[0]).localeCompare(String(b[0])));
+
+  const csv = [header, ...rows]
+    .map(r => r.map(csvCell).join(','))
+    .join('\r\n');
+
+  // Trigger download.
+  const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  const stamp = new Date().toISOString().slice(0,10);
+  a.href = url;
+  a.download = 'HST_Certificates_' + stamp + '.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+
+  toast('Exported ' + rows.length + ' certificate' + (rows.length===1?'':'s') + ' to CSV.');
 }
 
 // ════════════════════════════════════════════════════════════════
@@ -1774,7 +1868,17 @@ function deleteStudent(email){
 // ════════════════════════════════════════════════════════════════
 //  ADMIN DASHBOARD LOGIC
 // ════════════════════════════════════════════════════════════════
-const ADMIN_DEFAULT_PIN = '271024';
+const ADMIN_DEFAULT_PIN = '19855';
+const ADMIN_PIN_RESET_VERSION = '2026-04-27-v1';   // bump this to force-reset the PIN again later
+
+// One-time forced reset: if the saved PIN was set under an older version
+// (or never), overwrite it with ADMIN_DEFAULT_PIN.
+try{
+  if(localStorage.getItem('hst_admin_pin_reset') !== ADMIN_PIN_RESET_VERSION){
+    localStorage.setItem('hst_admin_pin', ADMIN_DEFAULT_PIN);
+    localStorage.setItem('hst_admin_pin_reset', ADMIN_PIN_RESET_VERSION);
+  }
+}catch(e){}
 
 function getAdminPin(){
   try{ return localStorage.getItem('hst_admin_pin') || ADMIN_DEFAULT_PIN; }
@@ -2507,6 +2611,7 @@ const EMAIL_API_URL = 'https://89edd1ea-ce87-4c2b-b116-488f426b2afa-00-pe6rxejtu
           <option value="prog">In Progress</option>
           <option value="new">Just Registered</option>
         </select>
+        <button class="btn btn-gold" onclick="exportCertsCSV()" style="font-size:0.85rem;padding:0.7rem 1.2rem;white-space:nowrap">📊 Export Certificates CSV</button>
       </div>
 
       <!-- Student List -->
