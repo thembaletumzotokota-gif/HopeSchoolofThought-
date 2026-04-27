@@ -1961,11 +1961,26 @@ async function _buildCertPdf(){
   if (document.fonts && document.fonts.ready) {
     try { await document.fonts.ready; } catch(e) {}
   }
-  // Let any pending layout settle
-  await new Promise(r => setTimeout(r, 80));
 
   const certEl = document.getElementById('cert-doc');
   if (!certEl) throw new Error('Certificate element not found');
+
+  // Wait for every <img> in the cert (logo + signature) to be fully loaded.
+  // Without this, html2canvas may capture before the new logo is decoded,
+  // producing a partial/blank capture and falling back to the native draw.
+  const imgs = Array.from(certEl.querySelectorAll('img'));
+  await Promise.all(imgs.map(img => {
+    if (img.complete && img.naturalWidth > 0) return Promise.resolve();
+    return new Promise(res => {
+      const done = () => res();
+      img.addEventListener('load',  done, { once:true });
+      img.addEventListener('error', done, { once:true });
+      // Safety timeout so we never hang
+      setTimeout(done, 1500);
+    });
+  }));
+  // Let layout settle
+  await new Promise(r => setTimeout(r, 120));
 
   const studentName = (document.getElementById('cert-name')?.textContent || 'Student Name').trim();
   const certNum     = (document.getElementById('cert-reg')?.textContent  || '').trim();
@@ -2035,17 +2050,27 @@ async function _buildCertPdf(){
         },
       });
       // Sanity-check: is the canvas actually non-blank?
+      // Sample 25 evenly-spaced points across the canvas. Only treat as blank
+      // when essentially every sample is within range of cream — this avoids
+      // false positives from the new logo's white background sitting on a
+      // single sample point.
       if (canvas) {
         try {
           const ctx = canvas.getContext('2d');
-          const cx  = Math.floor(canvas.width / 2);
-          const cy  = Math.floor(canvas.height / 3);   // sample upper-third (text area)
-          const px  = ctx.getImageData(cx, cy, 1, 1).data;
-          // Cream is ~ (253,246,227); ink/gold pixels deviate. If the entire
-          // sample is within 5 of cream, treat as blank and use fallback.
-          const isBlank = Math.abs(px[0]-253) < 5 && Math.abs(px[1]-246) < 5 && Math.abs(px[2]-227) < 5;
-          if (isBlank) {
-            console.warn('html2canvas produced blank canvas — falling back to native draw');
+          let nonCream = 0, total = 0;
+          for (let gy = 1; gy <= 5; gy++) {
+            for (let gx = 1; gx <= 5; gx++) {
+              const sx = Math.floor(canvas.width  * gx / 6);
+              const sy = Math.floor(canvas.height * gy / 6);
+              const p  = ctx.getImageData(sx, sy, 1, 1).data;
+              const dr = Math.abs(p[0]-253), dg = Math.abs(p[1]-246), db = Math.abs(p[2]-227);
+              if (dr > 8 || dg > 8 || db > 8) nonCream++;
+              total++;
+            }
+          }
+          // If fewer than 2 sample points deviate, treat as blank
+          if (nonCream < 2) {
+            console.warn('html2canvas produced (near-)blank canvas — falling back to native draw');
             canvas = null;
           }
         } catch(e){ /* sampling failed, trust the canvas */ }
@@ -2086,7 +2111,10 @@ function _buildCertPdfNative(){
   const studentName = (document.getElementById('cert-name')?.textContent || 'Student Name').trim();
   const certDate    = (document.getElementById('cert-date')?.textContent || '').trim();
   const certNum     = (document.getElementById('cert-reg')?.textContent  || '').trim();
-  const sigImg      = document.querySelector('#cert-doc img');
+  // IMPORTANT: select the signature explicitly by class. The cert now has
+  // two <img> tags inside #cert-doc (the new logo + the signature), so a
+  // generic "#cert-doc img" would grab the logo instead.
+  const sigImg      = document.querySelector('#cert-doc img.cert-sig-img');
   const sigSrc      = sigImg && sigImg.src && sigImg.src.startsWith('data:') ? sigImg.src : null;
 
   const W = 210, H = 297;       // A4 mm
